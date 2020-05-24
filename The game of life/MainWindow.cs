@@ -22,6 +22,8 @@ namespace The_game_of_life
         {
             int countOfAliveNeighbours;
 
+            List<Cell> cellsToBeBorn = new List<Cell>();
+            List<Cell> cellsToDie = new List<Cell>();
 
 
             foreach (var cell in cells)
@@ -53,8 +55,11 @@ namespace The_game_of_life
 
                     if (!isStayingAlive)
                     {
-                        cell.setIsAlive(false);
+                        cellsToDie.Add(cell);
                     }
+                }
+                else
+                {
 
                     bool isToBeBorn = false;
                     foreach (var howManyToBeBorn in gameSettings.howManyAliveNeighboursToBeBorn)
@@ -66,11 +71,18 @@ namespace The_game_of_life
                     }
                     if (isToBeBorn)
                     {
-                        cell.setIsAlive(true);
-
+                        cellsToBeBorn.Add(cell);
                     }
                 }
             }
+
+            foreach (var cell in cellsToBeBorn) {
+                cell.setIsAlive(true);
+            };
+            foreach (var cell in cellsToDie) {
+                cell.setIsAlive(false);
+            }
+
         }
         private void BtnKill_Click(object sender, EventArgs e) {
                 foreach (var cell in cells) {
